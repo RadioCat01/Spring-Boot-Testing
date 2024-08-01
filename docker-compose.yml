@@ -1,0 +1,31 @@
+services:
+  postgres:
+    container_name: backendMasteryPG
+    image: postgres
+    environment:
+      POSTGRES_USER: username
+      POSTGRES_PASSWORD: password
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - 5432:5432
+    restart: unless-stopped
+
+  mongo:
+    container_name: mongodb
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: username
+      MONGO_INITDB_ROOT_PASSWORD: password
+    volumes:
+      - mongo:/data/db
+    ports:
+      - 27017:27017
+    restart: unless-stopped
+
+
+
+volumes:
+  mongo:
+  postgres:
