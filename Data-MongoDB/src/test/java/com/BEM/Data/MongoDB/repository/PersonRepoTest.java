@@ -41,4 +41,22 @@ class PersonRepoTest {
         System.out.printf(persons.toString());
     }
 
+    @Test
+    public void findByName(){
+        List<Person> personList = personRepo.findByFirstNameStartsWith("rr");
+        System.out.printf(personList.toString());
+    }
+
+    @Test
+    public void deleteByName(){
+        personRepo.deleteById("66ab6a4d0262d82730782cec");
+    }
+
+
+
+
+
+
+
+
 }
