@@ -23,11 +23,10 @@ provides Getters, Setters, toString(), equals(object o), hashCode(), RequiredArg
  1) Hibernate uses reflection to find the no-argument constructor and instantiate the object
  2) Hibernate then populates the fields of the object with the values from the database
 */
-
 @AllArgsConstructor /*
 Provides a quick and easy way to create fully-initialized Student instances,
- which can be particularly helpful for testing,
- or whenever you need to create objects with all their properties set in a single step
+which can be particularly helpful for testing,
+or whenever you need to create objects with all their properties set in a single step
 */
 @Builder
 public class Student {
