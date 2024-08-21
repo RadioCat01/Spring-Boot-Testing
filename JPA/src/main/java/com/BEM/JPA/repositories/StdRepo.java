@@ -2,6 +2,7 @@ package com.BEM.JPA.repositories;
 
 
 import com.BEM.JPA.entities.Student;
+import com.BEM.JPA.entities.StudentResponseDTO;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -50,7 +51,5 @@ public interface StdRepo extends JpaRepository<Student, Integer> {
     void deleteInactiveUsers(int id);
 
 
-
-
-
+    List<Student> findAllByFirstNameContaining(String name);
 }
