@@ -9,11 +9,13 @@
         <outputRelativeToContentRoot value="true" />
         <module name="Data-MongoDB" />
         <module name="JPA" />
+        <module name="Backend" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="Backend" options="-parameters" />
       <module name="Data-MongoDB" options="-parameters" />
       <module name="JPA" options="-parameters" />
     </option>

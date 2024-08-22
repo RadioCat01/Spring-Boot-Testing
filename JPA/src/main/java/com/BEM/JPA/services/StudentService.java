@@ -45,4 +45,12 @@ public class StudentService {
                 .collect(Collectors.toList());
     }
 
+    public List<StudentResponseDTO> getStudentsByAddress(String address) {
+        return studentRepo.findAllByAddressContaining(address)
+                .stream()
+                .map(studentMapper::toStudentResponseDTO)
+                .collect(Collectors.toList());
+    }
+
+
 }

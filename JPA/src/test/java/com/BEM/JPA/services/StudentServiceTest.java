@@ -167,6 +167,35 @@ class StudentServiceTest {
     }
 
 
+    @Test
+    public void shouldFindAllStudents_By_Address_containing(){
+        //Given
+        String address = "anyAddress";
+
+        List<Student> students = new ArrayList<>();
+        students.add(Student.builder()
+                        .firstName("anyName")
+                        .lastName("anyLastName")
+                        .email("anyEmail@email.com")
+                        .phone("+94000000")
+                .build());
+
+        StudentResponseDTO results = new StudentResponseDTO("anyName","+9400000");
+
+        when(repo.findAllByAddressContaining(address)).thenReturn(students);
+        when(mapper.toStudentResponseDTO(any(Student.class))).thenReturn(results);
+
+        //When
+        List<StudentResponseDTO> responses = studentService.getStudentsByAddress(address);
+
+        //Then
+        assertEquals(students.size(), responses.size());
+        assertEquals(students.get(0).getFirstName(), responses.get(0).getFirstName());
+        verify(repo,times(1)).findAllByAddressContaining(address);
+        verify(mapper, times(1)).toStudentResponseDTO(students.get(0));
+
+
+    }
 
 
 

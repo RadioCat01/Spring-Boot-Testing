@@ -52,4 +52,5 @@ public interface StdRepo extends JpaRepository<Student, Integer> {
 
 
     List<Student> findAllByFirstNameContaining(String name);
+    List<Student> findAllByAddressContaining(String address);
 }
