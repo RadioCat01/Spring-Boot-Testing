@@ -3,9 +3,7 @@ package com.BEM.JPA.controller;
 import com.BEM.JPA.entities.StudentResponseDTO;
 import com.BEM.JPA.services.StudentService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -16,9 +14,14 @@ public class StudentController {
 
     private final StudentService studentService;
 
-    @GetMapping
+    @GetMapping("/students")
     public List<StudentResponseDTO> getAllStudents() {
         return studentService.getAllStudents();
+    }
+
+    @GetMapping("/student/{id}")
+    public StudentResponseDTO getAllStudent(@PathVariable("id") int id) {
+        return studentService.getStudentById(id);
     }
 
 }

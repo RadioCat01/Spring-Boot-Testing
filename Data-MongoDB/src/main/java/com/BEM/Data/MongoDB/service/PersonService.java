@@ -18,5 +18,7 @@ public class PersonService {
     }
 
 
-    public List<Person> getPersonWith(String name) {return personRepo.findByFirstNameStartsWith(name);}
+    public List<Person> getPersonWith(String name) {
+        return personRepo.findByFirstNameStartsWith(name);
+    }
 }

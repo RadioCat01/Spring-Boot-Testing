@@ -1,8 +1,10 @@
 package com.pwn.book_network.security;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -14,10 +16,11 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import static org.springframework.security.config.Customizer.withDefaults;
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
-@Configuration
+//@Configuration
 @EnableWebSecurity
 @RequiredArgsConstructor
 @EnableMethodSecurity(securedEnabled = true)
+@Profile("dev")
 public class SecurityConfig {
 
     private final JwtFilter jwtAuthFilter;
@@ -25,30 +28,29 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
-        http.cors(withDefaults())
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests
-                        (
-                         req->req.requestMatchers(
-               "/auth/**", // contains login, register, and validation pages
-                        "/v2/api-docs",
-                        "v3/api-docs",
-                        "v3/api-docs/**",
-                        "/swagger-resources",
-                        "/swagger-resources/**",
-                        "/configuration/ui",
-                        "/configuration/security",
-                        "/swagger-ui/**",
-                        "/webjars/**",
-                        "/swagger-ui.html")
-                                .permitAll()
-                                .anyRequest()
-                                .authenticated()
-                        )
-                .sessionManagement(s->s.sessionCreationPolicy(STATELESS)) // spring should not store session state - check every time
-                .authenticationProvider(authenticationProvider)
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
-                  // list of filters including the custom filter (jwtAuthFilter)
+            http.cors(withDefaults())
+                    .csrf(csrf -> csrf.disable())
+                    .authorizeHttpRequests(req -> req
+                            .requestMatchers(
+                                    "/books/**",
+                                    "/auth/**",
+                                    "/v2/api-docs",
+                                    "v3/api-docs",
+                                    "v3/api-docs/**",
+                                    "/swagger-resources",
+                                    "/swagger-resources/**",
+                                    "/configuration/ui",
+                                    "/configuration/security",
+                                    "/swagger-ui/**",
+                                    "/webjars/**",
+                                    "/swagger-ui.html")
+                            .permitAll()
+                            .anyRequest().authenticated()
+                    )
+                    .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
+                    .authenticationProvider(authenticationProvider)
+                    .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+
         return http.build();
     }
 }

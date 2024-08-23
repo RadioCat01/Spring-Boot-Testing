@@ -11,11 +11,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.util.ArrayList;
 import java.util.Collections;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 @WebMvcTest(controllers = StudentController.class)
@@ -34,8 +30,17 @@ class StudentControllerTest {
         when(studentService.getAllStudents()).thenReturn(Collections.singletonList(student));
 
         // Act and Assert
-        mockMvc.perform(MockMvcRequestBuilders.get("/Stu")
+        mockMvc.perform(MockMvcRequestBuilders.get("/Stu/student")
                         .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    void ShouldGetStudentById() throws Exception {
+        StudentResponseDTO student = new StudentResponseDTO("John", "Doe");
+        when(studentService.getStudentById(1)).thenReturn(student);
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/Stu/student/1").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 

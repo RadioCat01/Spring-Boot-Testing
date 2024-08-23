@@ -52,6 +52,10 @@ class PersonRepoTest {
         personRepo.deleteById("66ab6a4d0262d82730782cec");
     }
 
+    @Test
+    public void findByLastName(){
+        personRepo.findByLastName("Name");
+    }
 
 
 

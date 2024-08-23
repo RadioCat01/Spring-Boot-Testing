@@ -53,4 +53,8 @@ public class StudentService {
     }
 
 
+    public StudentResponseDTO getStudentById(int id) {
+        return studentRepo.findById(id).map(studentMapper::toStudentResponseDTO)
+                .orElseThrow(()->new RuntimeException("Student not found"));
+    }
 }
