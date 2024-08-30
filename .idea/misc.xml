@@ -7,6 +7,8 @@
         <option value="$PROJECT_DIR$/JPA/pom.xml" />
         <option value="$PROJECT_DIR$/Data-MongoDB/pom.xml" />
         <option value="$PROJECT_DIR$/Book-Management-Backend/pom.xml" />
+        <option value="$PROJECT_DIR$/GymShark-Microservices/Customer/pom.xml" />
+        <option value="$PROJECT_DIR$/GymShark-Microservices/Order/pom.xml" />
       </list>
     </option>
   </component>

@@ -24,15 +24,15 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 public class SecurityConfig {
 
     private final JwtFilter jwtAuthFilter;
+    private final BasicJWTFilter basicJWTFilter;
     private final AuthenticationProvider authenticationProvider; // need to create a bean of this type in BeansConfig class
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
             http.cors(withDefaults())
-                    .csrf(csrf -> csrf.disable())
+                    .csrf(AbstractHttpConfigurer::disable)
                     .authorizeHttpRequests(req -> req
                             .requestMatchers(
-                                    "/books/**",
                                     "/auth/**",
                                     "/v2/api-docs",
                                     "v3/api-docs",
@@ -49,7 +49,7 @@ public class SecurityConfig {
                     )
                     .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
                     .authenticationProvider(authenticationProvider)
-                    .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+                    .addFilterBefore(basicJWTFilter,UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
