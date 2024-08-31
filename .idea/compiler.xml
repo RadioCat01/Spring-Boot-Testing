@@ -8,10 +8,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="Order" />
-        <module name="JPA" />
         <module name="Backend" />
+        <module name="Payment" />
         <module name="Data-MongoDB" />
         <module name="Customer" />
+        <module name="Product" />
+        <module name="JPA" />
       </profile>
     </annotationProcessing>
   </component>
@@ -22,6 +24,8 @@
       <module name="Data-MongoDB" options="-parameters" />
       <module name="JPA" options="-parameters" />
       <module name="Order" options="-parameters" />
+      <module name="Payment" options="-parameters" />
+      <module name="Product" options="-parameters" />
     </option>
   </component>
 </project>

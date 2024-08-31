@@ -45,9 +45,6 @@ public class OrderService {
                 Address
         );
 
-        var savedCustomerID = customerClient.createCustomer(CustomerRequest);
-
-
         var purchasedProduct = this.productClientFeing.purchaseProducts(request.products());
 
         var order = this.repo.save(mapper.toOrder(request));

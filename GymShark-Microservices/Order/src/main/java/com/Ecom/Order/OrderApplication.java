@@ -8,7 +8,7 @@ import org.springframework.kafka.annotation.EnableKafka;
 
 @SpringBootApplication
 @EnableFeignClients
-@EnableJpaAuditing
+//@EnableJpaAuditing
 public class OrderApplication {
 
 	public static void main(String[] args) {
