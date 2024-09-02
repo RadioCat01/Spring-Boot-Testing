@@ -17,6 +17,12 @@
         <option value="$PROJECT_DIR$/Personalized-News-and-Tends-Dashboard/Services/History/pom.xml" />
         <option value="$PROJECT_DIR$/Personalized-News-and-Tends-Dashboard/Services/NewsAPI/pom.xml" />
         <option value="$PROJECT_DIR$/Personalized-News-and-Tends-Dashboard/Services/User/pom.xml" />
+        <option value="$PROJECT_DIR$/NewsProject-MicroserviceEnvTest/Services/History/pom.xml" />
+        <option value="$PROJECT_DIR$/NewsProject-MicroserviceEnvTest/Services/NewsAPI/pom.xml" />
+        <option value="$PROJECT_DIR$/NewsProject-MicroserviceEnvTest/Services/Discovery/pom.xml" />
+        <option value="$PROJECT_DIR$/NewsProject-MicroserviceEnvTest/Services/User/pom.xml" />
+        <option value="$PROJECT_DIR$/NewsProject-MicroserviceEnvTest/Services/Config/pom.xml" />
+        <option value="$PROJECT_DIR$/NewsProject-MicroserviceEnvTest/Services/Gateway/pom.xml" />
       </list>
     </option>
   </component>

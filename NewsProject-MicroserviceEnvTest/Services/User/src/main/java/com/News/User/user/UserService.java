@@ -31,6 +31,7 @@ public class UserService {
         return repo.findAll();
     }
 
+
     public ResponseEntity<Boolean> checkUser(String userId) {
         Optional<User> user = repo.findByKCId(userId);
         return ResponseEntity.ok(user.isPresent());

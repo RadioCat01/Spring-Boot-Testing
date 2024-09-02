@@ -11,8 +11,8 @@
         <module name="User" />
         <module name="Data-MongoDB" />
         <module name="Customer" />
-        <module name="Config" />
         <module name="NewsAPI" />
+        <module name="Config" />
         <module name="Discovery" />
         <module name="Product" />
         <module name="History" />

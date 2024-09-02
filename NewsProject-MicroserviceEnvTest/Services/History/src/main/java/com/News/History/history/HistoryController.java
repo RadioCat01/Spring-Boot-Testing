@@ -16,6 +16,7 @@ public class HistoryController {
 
     private final HistoryService service;
     private final WebsocketService websocketService;
+    private final AnalyticService analyticService;
 
     @GetMapping
     public Flux<UserHistory> getAllHistories(){
@@ -28,11 +29,6 @@ public class HistoryController {
     ){
         websocketService.getAllNews(userId);
     }
-
-
-
-    private final AnalyticService analyticService;
-
 
     @GetMapping("/pref")
     public Mono<Void> send() {    // with `public void send(){} ` the reactive chain is not subscribed!
