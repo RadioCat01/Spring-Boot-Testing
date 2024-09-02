@@ -11,6 +11,12 @@
         <option value="$PROJECT_DIR$/GymShark-Microservices/Order/pom.xml" />
         <option value="$PROJECT_DIR$/GymShark-Microservices/Payment/pom.xml" />
         <option value="$PROJECT_DIR$/GymShark-Microservices/Product/pom.xml" />
+        <option value="$PROJECT_DIR$/Personalized-News-and-Tends-Dashboard/Services/Config/pom.xml" />
+        <option value="$PROJECT_DIR$/Personalized-News-and-Tends-Dashboard/Services/Discovery/pom.xml" />
+        <option value="$PROJECT_DIR$/Personalized-News-and-Tends-Dashboard/Services/Gateway/pom.xml" />
+        <option value="$PROJECT_DIR$/Personalized-News-and-Tends-Dashboard/Services/History/pom.xml" />
+        <option value="$PROJECT_DIR$/Personalized-News-and-Tends-Dashboard/Services/NewsAPI/pom.xml" />
+        <option value="$PROJECT_DIR$/Personalized-News-and-Tends-Dashboard/Services/User/pom.xml" />
       </list>
     </option>
   </component>

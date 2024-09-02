@@ -8,11 +8,17 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="Order" />
-        <module name="Backend" />
-        <module name="Payment" />
+        <module name="User" />
         <module name="Data-MongoDB" />
         <module name="Customer" />
+        <module name="Config" />
+        <module name="NewsAPI" />
+        <module name="Discovery" />
         <module name="Product" />
+        <module name="History" />
+        <module name="Backend" />
+        <module name="Payment" />
+        <module name="Gateway" />
         <module name="JPA" />
       </profile>
     </annotationProcessing>
@@ -20,12 +26,18 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="Backend" options="-parameters" />
+      <module name="Config" options="-parameters" />
       <module name="Customer" options="-parameters" />
       <module name="Data-MongoDB" options="-parameters" />
+      <module name="Discovery" options="-parameters" />
+      <module name="Gateway" options="-parameters" />
+      <module name="History" options="-parameters" />
       <module name="JPA" options="-parameters" />
+      <module name="NewsAPI" options="-parameters" />
       <module name="Order" options="-parameters" />
       <module name="Payment" options="-parameters" />
       <module name="Product" options="-parameters" />
+      <module name="User" options="-parameters" />
     </option>
   </component>
 </project>

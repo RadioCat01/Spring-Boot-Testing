@@ -32,13 +32,12 @@ public class CustomerService {
         var customer = repo.findById(request.Id()).orElseThrow(()-> new CustomerNotFoundException(
                 String.format("cannot update customer %s", request.Id())
         ));
-
         mergerCustomer(customer, request);
         repo.save(customer);
 
     }
 
-    private void mergerCustomer(Customer customer, CustomerRequest request) {
+    public void mergerCustomer(Customer customer, CustomerRequest request) {
         if(StringUtils.isNotBlank(request.firstname())){
             customer.setFirstname(request.firstname());
         }

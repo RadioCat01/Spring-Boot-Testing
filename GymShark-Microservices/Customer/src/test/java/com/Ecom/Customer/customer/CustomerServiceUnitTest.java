@@ -4,17 +4,14 @@ import com.Ecom.Customer.exception.CustomerNotFoundException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
+import org.mockito.*;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class CustomerServiceUnitTest {
 
@@ -26,6 +23,10 @@ class CustomerServiceUnitTest {
 
     @InjectMocks
     private CustomerService customerService;
+
+    @Spy
+    private CustomerService spyCustomerService; // Spy for nested method call
+
 
     @BeforeEach
     void setUp() {
@@ -73,5 +74,4 @@ class CustomerServiceUnitTest {
         when(customerRepo.findById(anyString())).thenReturn(Optional.empty());
         assertThrows(CustomerNotFoundException.class,()->customerService.findById(null));
     }
-
 }

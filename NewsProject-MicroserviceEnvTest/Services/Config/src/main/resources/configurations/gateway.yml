@@ -1,0 +1,21 @@
+spring:
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: user
+          uri: lb:http://USER
+          predicates:
+            - Path=/user/**
+        - id: news
+          uri: lb:http://NEWS
+          predicates:
+            - Path=/news/**
+        - id: history
+          uri: lb:http://HISTORY
+          predicates:
+            - Path=/history/**
+server:
+  port: 8081
