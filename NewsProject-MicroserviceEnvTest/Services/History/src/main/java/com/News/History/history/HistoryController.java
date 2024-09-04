@@ -27,7 +27,7 @@ public class HistoryController {
     public void callHistory(
             @RequestHeader("User-ID") String userId
     ){
-        websocketService.getAllNews(userId);
+        websocketService.getAllNews();
     }
 
     @GetMapping("/pref")

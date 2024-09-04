@@ -20,6 +20,7 @@ public class Article {
     private String content;
 
     @Data
+    @AllArgsConstructor
     public static class Source {
         private String id;
         private String name;

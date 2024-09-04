@@ -1,6 +1,5 @@
 package com.News.NewsAPI.news;
 
-import com.News.NewsAPI.finance.AlphaVantageResponse;
 import com.News.NewsAPI.websocket.NewsWebSocketHandler;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -75,7 +74,8 @@ public class NewsService {
                 .retrieve()
                 .bodyToFlux(String.class)
                 .flatMap(this::parseArticles)
-                .doOnNext(article -> log.info("parsed article: {}", article));
+                .doOnError(throwable -> log.error(throwable.getMessage(), throwable))
+                .onErrorResume(throwable -> Flux.error(new RuntimeException("An error occurred while fetching news", throwable)));
     }
 
     @CircuitBreaker(name = "NewsAPiCircuitBreaker")
@@ -94,7 +94,9 @@ public class NewsService {
                         .retrieve()
                         .bodyToFlux(String.class)
                         .flatMap(this::parseArticles)
-                );
+
+                ).doOnError(throwable -> log.error(throwable.getMessage(), throwable))
+                .onErrorResume(throwable -> Flux.error(new RuntimeException("An error occurred while fetching news", throwable)));
     }
 
     public Flux<Article> fallback(int pageSize, String id, Throwable t) {
@@ -105,13 +107,15 @@ public class NewsService {
     }
 
     public Mono<String> getPreferences(String id) {
-        System.out.printf("getpref called");
+
         return this.userClient.get()
                 .uri("/getPref?id={id}", id)
                 .retrieve()
                 .bodyToMono(new ParameterizedTypeReference<List<String>>() {})
                 .map(keywords-> String.join(" AND ", keywords))
-                .doOnNext(k -> log.info(k));
+                .doOnNext(k -> log.info(k))
+                .doOnError(throwable -> log.error(throwable.getMessage(), throwable))
+                .onErrorResume(throwable -> Mono.error(new RuntimeException("An error occurred while fetching news", throwable)));
     }
 
     @RateLimiter(name = "NewsAPiCircuitBreaker")
@@ -144,35 +148,6 @@ public class NewsService {
             return Flux.empty();
         }
     }
-
-
-
-    public Mono<AlphaVantageResponse> getIntradayData(String symbol) {
-        return financeClient.get()
-                .uri(uriBuilder -> uriBuilder
-                        .path("/query")
-                        .queryParam("function", "TIME_SERIES_INTRADAY")
-                        .queryParam("symbol", symbol)
-                        .queryParam("interval", "1min")
-                        .queryParam("apikey", "8f864c57490146f69398002a9a51100e")
-                        .build())
-                .retrieve()
-                .bodyToMono(String.class)
-                .flatMap(this::parseJson);
-    }
-
-    private Mono<AlphaVantageResponse> parseJson(String json) {
-        try {
-            AlphaVantageResponse response = objectMapper.readValue(json, AlphaVantageResponse.class);
-            return Mono.just(response);
-        } catch (Exception e) {
-            return Mono.error(e);
-        }
-    }
-
-
-
-
 
 }
 

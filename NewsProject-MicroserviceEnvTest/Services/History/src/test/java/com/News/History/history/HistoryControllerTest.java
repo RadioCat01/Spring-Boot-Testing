@@ -47,7 +47,7 @@ class HistoryControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/history/get")
                 .header("User-ID", userId)).andExpect(MockMvcResultMatchers.status().isOk());
 
-        verify(websocketService,times(1)).getAllNews(userId);
+        verify(websocketService,times(1)).getAllNews();
 
     }
 

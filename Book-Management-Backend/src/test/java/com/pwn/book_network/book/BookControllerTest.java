@@ -3,6 +3,7 @@ package com.pwn.book_network.book;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pwn.book_network.role.roleRepository;
 import com.pwn.book_network.security.JwtService;
+import com.pwn.book_network.user.User;
 import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -34,10 +35,12 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(controllers = BookController.class)
@@ -58,21 +61,38 @@ class BookControllerTest {
     @MockBean
     private roleRepository roleRepository;
 
+    @Mock
+    private ObjectMapper objectMapper;
+
+    @Mock
+    private User user;
+
+    @Mock
+    private Authentication authentication;
+
+    @InjectMocks
+    private BookController bookController;
+
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+    }
+
     @Test
     @WithMockUser(roles = "USER")  // Ensure the role matches what your security config expects
     void shouldSaveBook() throws Exception {
-        // Create a BookRequest object with sample data
+        // given
         BookRequest request = new BookRequest(1, "New book", "Author", "anyIsBn", "any", false);
+        String requestBody = objectMapper.writeValueAsString(request);
 
         // Mock the service method call
-        Mockito.when(bookService.save(any(BookRequest.class), any(Authentication.class)))
-                .thenReturn(1);
+        when(authentication.getPrincipal()).thenReturn(user);
 
         // Act & Assert
         mockMvc.perform(MockMvcRequestBuilders.post("/books")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(request.toString()))
+                        .principal(authentication))
                         .andExpect(status().isOk());
+
     }
 
     @Test

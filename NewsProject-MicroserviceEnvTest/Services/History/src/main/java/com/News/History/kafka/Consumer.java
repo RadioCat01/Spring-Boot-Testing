@@ -1,10 +1,14 @@
 package com.News.History.kafka;
 
 import com.News.History.history.HistoryService;
+import com.News.History.history.UserHistory;
 import com.News.History.websocket.WebsocketService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.beanvalidation.SpringValidatorAdapter;
+import reactor.core.Disposable;
+import reactor.core.publisher.Mono;
 
 @Service
 @RequiredArgsConstructor
@@ -14,11 +18,10 @@ public class Consumer {
     private final WebsocketService websocketService;
 
 
-    @KafkaListener(topics = "news")
-    public void consumeMessage(UserHistoryDTO userHistory){
 
-        System.out.println("Received message from Kafka: " + userHistory);
-        service.save(userHistory)
+    @KafkaListener(topics = "news")
+    public Disposable consumeMessage(UserHistoryDTO userHistory){
+         return service.save(userHistory)
                 .doOnSuccess(saved -> {
                     System.out.println("UserHistory saved: " + saved);
                     websocketService.sendAllNews()
@@ -28,5 +31,4 @@ public class Consumer {
                 .doOnError(error -> System.err.println("Error saving UserHistory: " + error.getMessage()))
                 .subscribe();
     }
-
 }

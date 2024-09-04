@@ -20,7 +20,6 @@ public class WebsocketService {
     private static final String KEYCLOAK_ID_KEY = "keycloakId";
 
     public Mono<Void> sendAllNews() {
-        System.out.println("Send history called");
 
         return repository.findAll()
                 .doOnNext(userHistory -> System.out.println("Fetched userHistory: " + userHistory))
@@ -34,10 +33,7 @@ public class WebsocketService {
                 .doOnError(error -> System.err.println("Error sending news: " + error.getMessage()));
     }
 
-    public void getAllNews(String userid){
-
-
-        System.out.println("getallnews triggered");
+    public void getAllNews(){
         repository.findAll()
                 .map(mapper::toArticle)
                 .collectList()
@@ -48,9 +44,7 @@ public class WebsocketService {
                 .subscribe();
     }
 
-
     public Flux<UserHistory> watchNews() {
-        System.out.println("Watch news called");
         return repository.findAll()
                 .doOnNext(userHistory -> System.out.println("Fetched userHistory in watchNews: " + userHistory))
                 .doOnError(error -> System.err.println("Error watching news: " + error.getMessage()));
