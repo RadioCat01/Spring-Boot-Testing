@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pwn.book_network.role.roleRepository;
 import com.pwn.book_network.security.JwtService;
 import com.pwn.book_network.user.User;
-import org.aspectj.lang.annotation.Before;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -12,34 +11,26 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.web.ServerProperties;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.ArrayList;
-import java.util.List;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -61,7 +52,7 @@ class BookControllerTest {
     @MockBean
     private roleRepository roleRepository;
 
-    @Mock
+    @Autowired
     private ObjectMapper objectMapper;
 
     @Mock
@@ -73,27 +64,41 @@ class BookControllerTest {
     @InjectMocks
     private BookController bookController;
 
+    @Autowired
+    private ServerProperties serverProperties;
+
     @BeforeEach
     void setUp() {
         MockitoAnnotations.openMocks(this);
     }
 
     @Test
-    @WithMockUser(roles = "USER")  // Ensure the role matches what your security config expects
+    @WithMockUser
     void shouldSaveBook() throws Exception {
-        // given
-        BookRequest request = new BookRequest(1, "New book", "Author", "anyIsBn", "any", false);
-        String requestBody = objectMapper.writeValueAsString(request);
+        BookRequest request = new BookRequest(null,"title","Author","isbn","synopsis", true);
 
-        // Mock the service method call
-        when(authentication.getPrincipal()).thenReturn(user);
+        /*
+        Spring Security uses CSRF tokens to prevent Cross-Site Request Forgery attacks.
+        When making a POST/PATCH request,
+        a valid CSRF token is required unless the CSRF protection is disabled.
+        The @WithMockUser annotation only mocks the authenticated user, not the CSRF token.
+         */
 
-        // Act & Assert
         mockMvc.perform(MockMvcRequestBuilders.post("/books")
-                        .principal(authentication))
-                        .andExpect(status().isOk());
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(request)))
+                .andExpect(MockMvcResultMatchers.status().isOk());
 
     }
+
+    @Test
+    @WithMockUser
+    void shouldFindAll() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/books/getbooks"))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
 
     @Test
     @WithMockUser
@@ -113,6 +118,119 @@ class BookControllerTest {
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.title").value("Test book"));
     }
+
+
+    @Test
+    @WithMockUser
+    void shouldFindAllBooks() throws Exception {
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/books")
+                .param("page","1")
+                .param("size","1")
+                .principal(authentication))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+
+    }
+
+    @Test
+    @WithMockUser
+    void findAllBooksByOwner() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/books/owner")
+                .param("page","1")
+                .param("size","1")
+                .principal(authentication))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    @WithMockUser
+    void findAllBorrowedBooks() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/books/borrowed")
+                        .param("page","1")
+                        .param("size","1")
+                        .principal(authentication))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    @WithMockUser
+    void findAllReturnedBooks() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/books/returned")
+                        .param("page","1")
+                        .param("size","1")
+                        .principal(authentication))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    @WithMockUser
+    void shouldUpdateShareableStatus() throws Exception {
+
+        mockMvc.perform(MockMvcRequestBuilders.patch("/books/shareable/{book-id}",1)
+                        .with(csrf()))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+
+    }
+
+    @Test
+    @WithMockUser
+    void shouldUpdateArchivedStatus() throws Exception {
+
+        mockMvc.perform(MockMvcRequestBuilders.patch("/books/archived/{book-id}",1)
+                        .with(csrf()))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+
+    }
+
+    @Test
+    @WithMockUser
+    void shouldBorrowBook() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.post("/books/borrow/{Book-ID}",1)
+                        .with(csrf()))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+
+    @Test
+    @WithMockUser
+    void shouldReturnBorrowedBook() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.patch("/books/borrow/return/{Book-ID}",1)
+                        .with(csrf()))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+
+    @Test
+    @WithMockUser
+    void shouldApproveBorrowedBook() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.patch("/books/borrow/return/approve/{Book-ID}",1)
+                        .with(csrf()))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    @WithMockUser
+    void shouldUploadBookCover() throws Exception {
+
+        MockMultipartFile mockFile = new MockMultipartFile(
+                "file",
+                "test-image.jpg",
+                "image/jpeg",
+                "test content".getBytes()
+        );
+
+                mockMvc.perform(MockMvcRequestBuilders.multipart("/books/cover/{Book-ID}",1)
+                        .file(mockFile)
+                        .with(csrf()))
+                .andExpect(MockMvcResultMatchers.status().isAccepted());
+    }
+
+
+
+
+
+
+
 
 
     /*

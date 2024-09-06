@@ -16,7 +16,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
-//@Service
+@Service
 @RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter { // make the class a filter
 

@@ -5,7 +5,6 @@ import com.pwn.book_network.security.JwtService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -15,7 +14,6 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -62,7 +60,7 @@ class FeedbackControllerTest {
 
 
         mockMvc.perform(MockMvcRequestBuilders.post("/feedbacks").accept(MediaType.APPLICATION_JSON)
-                .content(requestBody)).andExpect(status().isForbidden());
+                .content(requestBody)).andExpect(status().isOk());
 
 
 

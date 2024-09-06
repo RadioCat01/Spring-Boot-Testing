@@ -31,7 +31,7 @@ public class FeedbackService {
                 .orElseThrow(()-> new EntityNotFoundException("Book not found :"+ request.bookId())); //get the bookId
 
         if(book.isArchived() || !book.isShareable()){
-            throw new OperationProhibitted("not allowed "); //checks
+            throw new OperationProhibitted("not allowed"); //checks
         }
         User user= ((User) connectedUser.getPrincipal()); // get user
 

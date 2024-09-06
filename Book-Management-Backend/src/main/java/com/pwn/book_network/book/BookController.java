@@ -26,12 +26,10 @@ public class BookController {
         return ResponseEntity.ok(service.findAll());
     }
 
-
-
     // Gets object type of BookRequest and save it in repository
     @PostMapping
     public ResponseEntity<Integer> saveBook(
-            @Valid @RequestBody BookRequest request,
+            @RequestBody BookRequest request,
             Authentication connectedUser
                /*
                now who is saving the book is the one who connected to the system

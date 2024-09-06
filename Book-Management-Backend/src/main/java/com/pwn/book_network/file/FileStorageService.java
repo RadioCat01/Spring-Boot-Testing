@@ -41,7 +41,7 @@ public class FileStorageService {
     }
 
 
-    private String uploadFile(
+    public String uploadFile(
            @NotNull MultipartFile sourceFile,
            @NotNull String fileUploadSubPath)
     {
@@ -57,16 +57,12 @@ public class FileStorageService {
               log.warn("Failed to create target folder");
           }
       }
-
-
       /*
       get file name extension from source file
       getOriginalFilename() is a defined method to get the full name of the source file
       then it's passed in to custom method to get the file name Extension part as a string
       */
       final String fileExtension = getFileExtension(sourceFile.getOriginalFilename());
-
-
       /*
       here a new target filePath is created with unique name, adding current milliseconds as the file name
       a path something like,
@@ -88,7 +84,7 @@ public class FileStorageService {
     }
 
 
-    private String getFileExtension(String fileName) {
+    public String getFileExtension(String fileName) {
         if(fileName==null || fileName.isEmpty()){ // check file name is empty
             return "" ;
         }
