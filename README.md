@@ -11,14 +11,6 @@
     JPA Auditing Tests
 #### Using common testing utilities,
 
-    Mockito
-    JUnit, AssertJ
-    mockMvc, Webclient
-    Mockito Argument Matchers
-    Bean Mocking, Object Mocking
-    Injecting Authentication
-    Multipart Controllers
-    StepVerifier, ArgumentCaptor
-    Testing Reactive metnods and Controllers
+    
 
     And more..
