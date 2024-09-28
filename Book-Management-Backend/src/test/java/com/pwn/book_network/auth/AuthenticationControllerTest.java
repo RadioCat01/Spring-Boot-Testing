@@ -59,4 +59,9 @@ class AuthenticationControllerTest {
                 .andExpect(status().isOk());
     }
 
+    @Test
+    void shouldRegisterUser() throws Exception {
+        
+    }
+
 }
