@@ -24,6 +24,7 @@
         <option value="$PROJECT_DIR$/NewsProject-MicroserviceEnvTest/Services/Config/pom.xml" />
         <option value="$PROJECT_DIR$/NewsProject-MicroserviceEnvTest/Services/Gateway/pom.xml" />
         <option value="$PROJECT_DIR$/Blog_Front_Back/Blog/pom.xml" />
+        <option value="$PROJECT_DIR$/BookManagement/pom.xml" />
       </list>
     </option>
   </component>

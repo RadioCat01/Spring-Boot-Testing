@@ -19,15 +19,19 @@
         <module name="Backend" />
         <module name="Payment" />
         <module name="Gateway" />
-        <module name="JPA" />
+        <module name="BookManagemanet" />
         <module name="Blog" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="JPA" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="Backend" options="-parameters" />
       <module name="Blog" options="-parameters" />
+      <module name="BookManagemanet" options="-parameters" />
       <module name="Config" options="-parameters" />
       <module name="Customer" options="-parameters" />
       <module name="Data-MongoDB" options="-parameters" />

@@ -43,13 +43,10 @@ class NewsServiceTest {
 
     @Test
     void fallbackShouldReturnDefaultArticle() {
-
         String expectedTitle = "Hey there We're having a problem right now";
         Throwable simulatedThrowable = new RuntimeException("Simulated exception");
 
-
         Flux<Article> result = newsService.fallback(4, "testId", simulatedThrowable);
-
 
         StepVerifier.create(result)
                 .expectNextMatches(article -> article.getTitle().equals(expectedTitle))
@@ -66,7 +63,6 @@ class NewsServiceTest {
     void shouldGetUpdates() {
         Flux<Article> articles = newsService.getUpdates();
         articles.subscribe();
-
         assertNotNull(articles);
     }
 }
