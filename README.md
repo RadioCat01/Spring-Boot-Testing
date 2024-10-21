@@ -17,13 +17,13 @@ This repository contains multiple Spring Boot projects and:
 - Thorough testing of security, Kafka configurations, and reactive components.
 - **It is not intended for production use but can be used as a reference for developing robust test suites in real projects.**
 
-        Native Query Tests for Jdbc and R2dbc
-        Service Method Unit Tests/ Itegration Tests
-        WebMvc Tests
-        WebFlux Tests
-        Kafka Configuration Tests
-        Security Configurations Tests
-        JPA Auditing Tests
+      Native Query Tests for Jdbc and R2dbc
+      Service Method Unit Tests/ Itegration Tests
+      WebMvc Tests
+      WebFlux Test
+      Kafka Configuration Tests
+      Security Configurations Tests
+      JPA Auditing Tests
 #### Using common testing utilities,
 
     Mockito
@@ -48,8 +48,8 @@ This repository contains multiple Spring Boot projects and:
 
 #### Prerequisites
 - Java 17+
-- Maven/Gradle installed
-- Docker and Docker Compose installed
+- Maven/Gradle
+- Docker and Docker Compose
 
 #### Run the Tests 
 
